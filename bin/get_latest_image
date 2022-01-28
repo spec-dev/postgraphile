@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# --- Returns the latest full postgraphile docker image path --- #
+
+set -e # exit if any child script exits with non-zero status
+
+# ======== PARSE ARGS ======== #
+
+this_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+env="$1"
+
+# ======== VALIDATE ARGS ======== #
+
+$this_dir/validate_arg "env" "$env" "dev|staging|prod"
+
+# ======== SET KEY VARS ======== #
+
+aws_account_id=$( $this_dir/env_reader "$env" "AWS_ACCOUNT_ID" )
+aws_region=$( $this_dir/env_reader "$env" "AWS_REGION" )
+image_org=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_ORG" )
+image_name=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_NAME" )
+image_repo="$image_org/$image_name"
+registry_image="$aws_account_id.dkr.ecr.$aws_region.amazonaws.com/$image_repo"
+image_version="$( docker images $registry_image | sed -n 2p | awk '{print $2}' )"
+image="$registry_image:$image_version"
+
+# Return full image.
+echo "$image"

@@ -1,0 +1,25 @@
+module.exports = {
+    options: {
+        connection: process.env.DATABASE_URL,
+        host: '0.0.0.0',
+        port: 80,
+        graphql: '/',
+        schema: process.env.SCHEMAS.split(',').map(s => s.trim()).filter(s => !!s),
+        jwtSecret: process.env.JWT_SECRET,
+        jwtRole: ['anon', 'authenticated', 'service_role'],
+        defaultRole: 'anon',
+        jwtVerifyAlgorithms: ['HS256'],
+        watch: true,
+        skipPlugins: 'graphile-build:NodePlugin',
+        appendPlugins: '@graphile-contrib/pg-simplify-inflector',
+        simpleCollections: 'only',
+        dynamicJson: true,
+        extendedErrors: ['errcode'],
+        enableQueryBatching: true,
+        disableQueryLog: true,
+        disableGraphiql: true,
+        graphileBuildOptions: {
+            pgOmitListSuffix: true,
+        },
+    },
+}
