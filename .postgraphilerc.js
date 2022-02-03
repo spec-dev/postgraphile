@@ -9,6 +9,7 @@ module.exports = {
         jwtRole: ['anon', 'authenticated', 'service_role'],
         defaultRole: 'anon',
         jwtVerifyAlgorithms: ['HS256'],
+        jwtVerifyAudience: '',
         watch: true,
         skipPlugins: 'graphile-build:NodePlugin',
         appendPlugins: '@graphile-contrib/pg-simplify-inflector',
@@ -16,7 +17,6 @@ module.exports = {
         dynamicJson: true,
         extendedErrors: ['errcode'],
         enableQueryBatching: true,
-        disableQueryLog: true,
         disableGraphiql: true,
         graphileBuildOptions: {
             pgOmitListSuffix: true,
