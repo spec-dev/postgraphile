@@ -6,7 +6,6 @@ module.exports = {
         graphql: '/',
         schema: process.env.SCHEMAS.split(',').map(s => s.trim()).filter(s => !!s),
         jwtSecret: process.env.JWT_SECRET,
-        jwtRole: ['anon', 'authenticated', 'service_role'],
         defaultRole: 'anon',
         jwtVerifyAlgorithms: ['HS256'],
         jwtVerifyAudience: '',
