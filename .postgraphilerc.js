@@ -11,7 +11,10 @@ module.exports = {
         jwtVerifyAudience: '',
         watch: true,
         skipPlugins: 'graphile-build:NodePlugin',
-        appendPlugins: '@graphile-contrib/pg-simplify-inflector',
+        appendPlugins: [
+            '@graphile-contrib/pg-simplify-inflector',
+            'postgraphile-upsert-plugin:PgMutationUpsertPlugin',
+        ],
         simpleCollections: 'only',
         dynamicJson: true,
         extendedErrors: ['errcode'],
