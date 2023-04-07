@@ -21,7 +21,7 @@ aws_region=$( $this_dir/env_reader "$env" "AWS_REGION" )
 image_org=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_ORG" )
 image_name=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_NAME" )
 image_repo="$image_org/$image_name"
-image_version="read"
+image_version=$( $this_dir/latest_sha )
 image="$image_repo:$image_version"
 registry_image="$aws_account_id.dkr.ecr.$aws_region.amazonaws.com/$image"
 
