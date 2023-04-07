@@ -1,0 +1,42 @@
+#!/bin/bash
+
+# --- Create and deploy ingress-nginx --- #
+
+set -e # exit if any child script exits with non-zero status
+
+# ======== PARSE ARGS ======== #
+
+this_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+env="$1"
+project_id="$2"
+
+# ======== VALIDATE ARGS ======== #
+
+$this_dir/validate_arg "env" "$env" "dev|staging|prod"
+$this_dir/validate_arg "project_id" "$project_id"
+
+# ======== SET KEY VARS ======== #
+
+vpc_cidr=$( $this_dir/env_reader "$env" "VPC_CIDR" )
+cert_arm=$( $this_dir/env_reader "$env" "ACM_WILDCARD_CERT_ARM" )
+
+# ======== VALIDATE REQUIRED VARS ======== #
+
+$this_dir/assert_env "VPC_CIDR" "$vpc_cidr"
+$this_dir/assert_env "ACM_WILDCARD_CERT_ARM" "$cert_arm"
+
+# ======== CREATE & APPLY TEMPLATE ======== #
+
+template_path="$project_dir/ingress-nginx.yaml"
+
+# Create the config template.
+template=$( cat "$template_path" | \
+    sed "s|{{PROJECT_ID}}|$project_id|g" | \
+    sed "s|{{VPC_CIDR}}|$vpc_cidr|g" | \
+    sed "s|{{ACM_WILDCARD_CERT_ARM}}|$cert_arm|g" )
+
+echo "Creating ingress-nginx resources for $project_id..."
+
+# Apply the template.
+echo "$template" | kubectl apply -f -

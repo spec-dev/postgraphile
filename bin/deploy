@@ -1,3 +1,30 @@
 #!/bin/bash
 
-# --- TODO --- #
+# --- Create and deploy Postgraphile --- #
+
+set -e # exit if any child script exits with non-zero status
+
+# ======== PARSE ARGS ======== #
+
+this_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+project_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && cd .. && pwd )"
+env="$1"
+project_id="$2"
+
+# ======== VALIDATE ARGS ======== #
+
+$this_dir/validate_arg "env" "$env" "dev|staging|prod"
+$this_dir/validate_arg "project_id" "$project_id"
+
+# ======== CREATE & APPLY TEMPLATE ======== #
+
+template_path="$project_dir/api.yaml"
+
+# Create the config template.
+template=$( cat "$template_path" | \
+    sed "s|{{PROJECT_ID}}|$project_id|g" )
+
+echo "Creating API resources for $project_id..."
+
+# Apply the template.
+echo "$template" | kubectl apply -f -
