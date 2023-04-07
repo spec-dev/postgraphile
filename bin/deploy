@@ -16,12 +16,33 @@ project_id="$2"
 $this_dir/validate_arg "env" "$env" "dev|staging|prod"
 $this_dir/validate_arg "project_id" "$project_id"
 
+# ======== SET KEY VARS ======== #
+
+database_url=$( $this_dir/env_reader "$project_id" "DATABASE_URL" )
+
+# ======== VALIDATE REQUIRED VARS ======== #
+
+$this_dir/assert_env "DATABASE_URL" "$database_url"
+
+# ======== GET LATEST IMAGE ======== #
+
+aws_account_id=$( $this_dir/env_reader "$env" "AWS_ACCOUNT_ID" )
+aws_region=$( $this_dir/env_reader "$env" "AWS_REGION" )
+image_org=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_ORG" )
+image_name=$( $this_dir/env_reader "$env" "DOCKER_IMAGE_NAME" )
+image_repo="$image_org/$image_name"
+registry_image="$aws_account_id.dkr.ecr.$aws_region.amazonaws.com/$image_repo"
+image_version=$( $this_dir/latest_sha )
+image="$registry_image:$image_version"
+
 # ======== CREATE & APPLY TEMPLATE ======== #
 
 template_path="$project_dir/api.yaml"
 
 # Create the config template.
 template=$( cat "$template_path" | \
+    sed "s|{{IMAGE}}|$image|g" | \
+    sed "s|{{DATABASE_URL}}|$database_url|g" | \
     sed "s|{{PROJECT_ID}}|$project_id|g" )
 
 echo "Creating API resources for $project_id..."

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: api-{{PROJECT_ID}}
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       component: api-{{PROJECT_ID}}
@@ -16,7 +16,7 @@ spec:
       - name: api-{{PROJECT_ID}}
         image: {{IMAGE}}
         ports:
-        - name: api-{{PROJECT_ID}}
+        - name: api-primary
           containerPort: 80
         env:
         - name: ENV
