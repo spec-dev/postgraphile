@@ -1,0 +1,3 @@
+#!/bin/bash
+
+npm install -g postgraphile@4.12.8 @graphile-contrib/pg-simplify-inflector@6.1.0

@@ -4,6 +4,4 @@ postgraphile \
     --retry-on-init-fail \
     --no-setof-functions-contain-nulls \
     --no-ignore-rbac \
-    --legacy-relations omit \
-    --host localhost \
-    --port 5000
+    --legacy-relations omit
