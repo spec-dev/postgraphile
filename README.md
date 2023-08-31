@@ -1,4 +1,8 @@
-# Spec Postgraphile Server
+# Instant GraphQL API
+
+Create an instant GraphQL API from your Spec-enabled Postgres database.
+
+## Running Locally
 
 1. Set the following environment variables:
 ```bash
@@ -16,3 +20,7 @@ $ bin/install
 ```bash
 $ bin/start
 ```
+
+## License
+
+MIT
