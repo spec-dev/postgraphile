@@ -13,6 +13,7 @@ module.exports = {
         ],
         simpleCollections: 'only',
         dynamicJson: true,
+        ignoreIndexes: false,
         extendedErrors: ['errcode'],
         enableQueryBatching: true,
         graphileBuildOptions: {
