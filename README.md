@@ -18,7 +18,7 @@ $ bin/install
 
 3. Start Postgraphile locally:
 ```bash
-$ bin/start
+$ bin/run
 ```
 
 ## License

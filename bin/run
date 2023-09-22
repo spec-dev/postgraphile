@@ -4,4 +4,5 @@ postgraphile \
     --retry-on-init-fail \
     --no-setof-functions-contain-nulls \
     --no-ignore-rbac \
-    --legacy-relations omit
+    --legacy-relations omit \
+    --no-ignore-indexes
