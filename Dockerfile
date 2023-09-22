@@ -6,4 +6,4 @@ COPY .postgraphilerc.js .
 
 EXPOSE 80
 
-ENTRYPOINT ["postgraphile",  "--retry-on-init-fail", "--no-setof-functions-contain-nulls", "--no-ignore-rbac", "--legacy-relations", "omit"]
+ENTRYPOINT ["postgraphile",  "--retry-on-init-fail", "--no-setof-functions-contain-nulls", "--no-ignore-rbac", "--no-ignore-indexes", "--legacy-relations", "omit"]
