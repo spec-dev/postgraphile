@@ -1,3 +1,4 @@
+create user read;
 grant usage on schema public to read;
 grant select on all tables in schema public to read;
 grant select on all sequences in schema public to read;
